@@ -1,0 +1,1 @@
+# A Flashcard quiz app is a digital tool designed to help users memorize and review information using flashcards.This app typically allow users to create,organizeand test themselves with flashcards in various subjects.
