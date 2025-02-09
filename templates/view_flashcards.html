@@ -1,0 +1,34 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Flashcards</title>
+</head>
+<body>
+    <h2>Flashcards</h2>
+    <div id="flashcards"></div>
+
+    <script>
+        function loadFlashcards() {
+            fetch('/get_flashcards')
+                .then(response => response.json())
+                .then(data => {
+                    const flashcardsDiv = document.getElementById('flashcards');
+                    flashcardsDiv.innerHTML = '';
+                    data.forEach(flashcard => {
+                        let card = document.createElement('div');
+                        card.textContent = `Q: ${flashcard.question} | A: ${flashcard.answer}`;
+                        card.style.border = '1px solid black';
+                        card.style.padding = '10px';
+                        card.style.margin = '5px';
+                        flashcardsDiv.appendChild(card);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        window.onload = loadFlashcards;
+    </script>
+</body>
+</html>

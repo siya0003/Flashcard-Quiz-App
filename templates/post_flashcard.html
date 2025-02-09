@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Flashcard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Add a Flashcard</h2>
+        <input type="text" id="question" placeholder="Enter Question">
+        <input type="text" id="answer" placeholder="Enter Answer">
+        <button onclick="addFlashcard()">Add Flashcard</button>
+        <p id="message" class="message"></p>
+    </div>
+
+    <script>
+        function addFlashcard() {
+            let question = document.getElementById('question').value.trim();
+            let answer = document.getElementById('answer').value.trim();
+            let messageBox = document.getElementById('message');
+
+            if (!question || !answer) {
+                messageBox.style.color = "red";
+                messageBox.textContent = "Please enter both a question and an answer.";
+                return;
+            }
+
+            fetch('/add_flashcard', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question, answer })
+            })
+            .then(response => response.json())
+            .then(data => {
+                messageBox.style.color = "green";
+                messageBox.textContent = data.message;
+                document.getElementById('question').value = '';
+                document.getElementById('answer').value = '';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                messageBox.style.color = "red";
+                messageBox.textContent = " failed to add flashcard ";
+            });
+        }
+    </script>
+
+</body>
+</html>
